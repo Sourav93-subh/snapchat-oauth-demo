@@ -1,0 +1,70 @@
+<html>
+<head>
+<title>Snap Login Test</title>
+</head>
+
+<body>
+
+<h2>Snapchat Login Test</h2>
+
+<div id="display_name"></div>
+<img id="bitmoji" width="120"/>
+<div id="external_id"></div>
+
+<hr>
+
+<div id="my-login-button-target"></div>
+
+<script>
+
+window.snapKitInit = function () {
+
+snap.loginkit.mountButton("my-login-button-target", {
+
+clientId: "862020cd-1b4e-4c83-b668-7af404441f2a",
+
+redirectURI: "http://localhost:3000",
+
+scopeList: [
+"user.display_name",
+"user.bitmoji.avatar",
+"user.external_id"
+],
+
+handleResponseCallback: function () {
+
+snap.loginkit.fetchUserInfo().then(function(result){
+
+document.getElementById("display_name").innerText =
+"Name: " + result.data.me.displayName;
+
+document.getElementById("bitmoji").src =
+result.data.me.bitmoji.avatar;
+
+document.getElementById("external_id").innerText =
+"External ID: " + result.data.me.externalId;
+
+});
+
+}
+
+});
+
+};
+
+(function(d,s,id){
+var js,fjs=d.getElementsByTagName(s)[0];
+if(d.getElementById(id)) return;
+
+js=d.createElement(s);
+js.id=id;
+js.src="https://sdk.snapkit.com/js/v1/login.js";
+
+fjs.parentNode.insertBefore(js,fjs);
+
+}(document,"script","loginkit-sdk"));
+
+</script>
+
+</body>
+</html>
